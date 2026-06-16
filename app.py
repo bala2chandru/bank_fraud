@@ -49,7 +49,11 @@ st.markdown("""
 # ── LOAD DATA ────────────────────────────────────────────────────────
 @st.cache_data
 def load_data():
-    df = pd.read_csv('bank_fraud.csv')
+    import gdown, os
+    file_path = "bank_fraud.csv"
+    if not os.path.exists(file_path):
+        gdown.download(id="14YVhFtVEO8Sjf8--S-VTzg5s1FnnhxXb", output=file_path, quiet=False)
+    df = pd.read_csv(file_path)
     df['fraud_type'] = df['fraud_type'].fillna('Not Fraud')
     df['freq_bucket'] = pd.cut(df['transaction_freq_monthly'],
         bins=[0, 10, 20, 30, 50, 100],
